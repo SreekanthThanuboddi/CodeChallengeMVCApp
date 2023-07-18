@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "F1SLsNpABFWFsZnzk6bjRbVP6C5ej9UH6zxThMjTe1vxdRD2Vt71zwVGKstgW4CEa3mh2rhBlTSfyPoZpLk9tA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\SreekanthThanuboddi\\IO Data\\InterviewCodeChallenge_ASP.NetCoreMVC\\CodeChallengeApp\\CodeChallengeApp\\CodeChallengeApp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\SreekanthThanuboddi\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

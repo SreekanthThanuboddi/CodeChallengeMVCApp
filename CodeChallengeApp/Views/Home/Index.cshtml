@@ -1,0 +1,176 @@
+﻿@{
+	ViewData["Title"] = "Home Page";
+}
+
+<script>
+	$(document).ready(function () {
+		populateCategoryList();
+		populateSubCategoryList();
+		populateProductList();
+
+		$("#addProductHandler").click(function () {
+			$("#addProductDiv").show();
+		});
+
+		$("#btnSubmit").click(function () {
+			
+			var dataToPost = {
+				name: $("#ProductName").val(),
+				quantity: $("#ProductQuantity").val(),
+				code: $("#ProductCode").val(),
+				price: $("#ProductPrice").val(),
+				description: $("#ProductDescription").val()
+			};
+
+			$.ajax({
+				url: 'api/Category',
+				type: 'Post',
+				dataType: 'json',
+				data: JSON.stringify(dataToPost),
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				success: function (data, textStatus, xhr) {
+					populateProductList();
+					$("#addProductDiv").hide();
+				},
+				error: function (xhr, textStatus, errorThrown) {
+					console.log('Error in Api Call');
+				}
+			});
+		});
+
+	});
+
+	function populateCategoryList() {
+		$.ajax({
+			url: 'api/Category',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data, textStatus, xhr) {
+				$.each(data, function (i, element) {
+					$("#ddlCat").append("<option value=" + element.id + ">" + element.name + "</option>");
+				});
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log('Error in Api Call');
+			}
+		});
+	}
+
+	function populateSubCategoryList() {
+		$.ajax({
+			url: 'api/SubCategory',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data, textStatus, xhr) {
+				$.each(data, function (i, element) {
+					$("#ddlSubCat").append("<option value=" + element.id + ">" + element.name + "</option>");
+				});
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log('Error in Api Call');
+			}
+		});
+	}
+
+	function populateProductList() {
+		$.ajax({
+			url: 'api/Product',
+			type: 'GET',
+			dataType: 'json',
+			success: function (data, textStatus, xhr) {
+				console.log(data);
+				$.each(data.list, function (i, element) {
+					$("#tblBody").append("<tr><td>" + element.name + "</td><td>" + element.quantity + "</td><td>" + element.code + "</td><td>" + element.price + "</td><td>" + element.description + "</td></tr>");
+				});
+			},
+			error: function (xhr, textStatus, errorThrown) {
+				console.log('Error in Api Call');
+			}
+		});
+	}
+</script>
+
+
+<div>
+	<div class="panel panel-default">
+		<div class="panel-heading">Search Product</div>
+		<div class="panel-body">
+			<div className='container'>
+				<div className='row'>
+					<div className='col-3'>
+						Category :
+					</div>
+					<div className='col-3'>
+						<select name="ddlCat" id="ddlCat">
+							<option value="0">---Select---</option>
+						</select>
+					</div>
+					<div className='col-3'>
+						SubCategory :
+					</div>
+					<div className='col-3'>
+
+						<select name="ddlSubCat" id="ddlSubCat">
+							<option value="0">---Select---</option>
+						</select>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+	<table className='table table-striped' aria-labelledby="tabelLabel">
+		<thead>
+			<tr className="grid-heading">
+				<th>Name</th>
+				<th>Quantity</th>
+				<th>Code</th>
+				<th>Price</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody id="tblBody">
+		</tbody>
+	</table>
+	<p>
+		<button id="addProductHandler">Add Product</button>
+	</p>
+	<div id="addProductDiv" style="display:none">
+		<div class="panel panel-default">
+			<div class="panel-heading">Add Product</div>
+			<div class="panel-body">
+				<div className='container'>
+					<div className='row'>
+						<div className='col-4'>
+							<div className="form-group">
+								<label>Product Name</label>
+								<input type="text" name='Name' className="form-control" id="ProductName" />
+							</div>
+							<div className="form-group">
+								<label>Product Quantity</label>
+								<input type="text" name='Quantity' className="form-control" id="ProductQuantity" />
+							</div>
+							<div className="form-group">
+								<label>Product Code</label>
+								<input type="text" name='Code' className="form-control" id="ProductCode" />
+							</div>
+							<div className="form-group">
+								<label>Product Price</label>
+								<input type="text" name='Price' className="form-control" id="ProductPrice" />
+							</div>
+							<div className="form-group">
+								<label>Product Description</label>
+								<input type="text" name='Description' className="form-control" id="ProductDescription" />
+							</div>
+							<button type="submit" className="btn btn-primary" id="btnSubmit">Submit</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
